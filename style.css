@@ -17,7 +17,7 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; }
 body {
-  background: radial-gradient(120% 80% at 50% -10%, #2a1f3d 0%, var(--bg) 55%) fixed, var(--bg);
+  background: radial-gradient(120% 80% at 50% -10%, #36d944 0%, var(--bg) 55%) fixed, var(--bg);
   color: var(--text);
   font-family: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
   font-size: 16px;
