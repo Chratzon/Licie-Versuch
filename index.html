@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mondruhe</title>
+  <meta name="description" content="Einschlafmeditationen, Atemübungen und Einschlafgeschichten">
+  <meta name="theme-color" content="#120e1c">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mondruhe">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <!-- STARTSEITE -->
+  <main id="home" class="view active">
+    <header class="top">
+      <div>
+        <p class="eyebrow" id="timeHint">Guten Abend</p>
+        <h1 id="greeting">Zeit zum Ausruhen</h1>
+      </div>
+      <button class="icon-btn" id="openSettings" aria-label="Einstellungen">
+        <svg viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.7 7.7 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5a7.7 7.7 0 0 0-2.6 1.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.7 7.7 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 2.6-1.5l2.4 1 2-3.4-2-1.6Z"/></svg>
+      </button>
+    </header>
+
+    <button class="install-banner hidden" id="installBanner">
+      <span>Mondruhe auf dem Startbildschirm installieren</span>
+      <b>Installieren</b>
+    </button>
+
+    <nav class="chips" id="filters" aria-label="Kategorien"></nav>
+    <section id="list" class="list"></section>
+    <p class="foot">Mondruhe funktioniert auch offline. Gute Nacht.</p>
+  </main>
+
+  <!-- PLAYER -->
+  <section id="player" class="view" aria-live="polite">
+    <header class="top">
+      <button class="icon-btn" id="backBtn" aria-label="Zurück">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="p-head">
+        <p class="eyebrow" id="pCat"></p>
+        <h2 id="pTitle"></h2>
+      </div>
+      <button class="icon-btn" id="favBtn" aria-label="Favorit">
+        <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2Z"/></svg>
+      </button>
+    </header>
+
+    <div class="stage">
+      <div class="orb-wrap">
+        <div class="orb" id="orb"></div>
+        <div class="orb-label">
+          <span id="phaseLabel"></span>
+          <span id="phaseCount"></span>
+        </div>
+      </div>
+      <p class="line" id="line"></p>
+      <div class="progress"><div id="progressBar"></div></div>
+      <p class="status" id="status"></p>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl ghost" id="stopBtn" aria-label="Neu starten">
+        <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>
+      </button>
+      <button class="ctrl main" id="playBtn" aria-label="Abspielen">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5L8 5.5Z" class="fill"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+      </button>
+      <button class="ctrl ghost" id="nightBtn" aria-label="Bildschirm abdunkeln">
+        <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+    </div>
+
+    <div class="panel">
+      <div class="row" id="cycleRow">
+        <span class="lbl">Atemzüge</span>
+        <div class="stepper">
+          <button id="cycMinus" aria-label="Weniger">−</button>
+          <b id="cycVal">4</b>
+          <button id="cycPlus" aria-label="Mehr">+</button>
+        </div>
+      </div>
+      <div class="row col">
+        <span class="lbl">Hintergrundklang</span>
+        <div class="chips small" id="soundChips"></div>
+      </div>
+      <div class="row col">
+        <span class="lbl">Einschlaf-Timer <em id="timerLeft"></em></span>
+        <div class="chips small" id="timerChips"></div>
+      </div>
+      <div class="row">
+        <span class="lbl">Stimme</span>
+        <input type="range" id="voiceVol" min="0" max="1" step="0.05">
+      </div>
+      <div class="row">
+        <span class="lbl">Klang</span>
+        <input type="range" id="ambVol" min="0" max="1" step="0.05">
+      </div>
+    </div>
+  </section>
+
+  <!-- EINSTELLUNGEN -->
+  <dialog id="settings">
+    <form method="dialog" class="sheet">
+      <header class="top">
+        <h2>Einstellungen</h2>
+        <button class="icon-btn" value="close" aria-label="Schließen">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+
+      <label class="field">Dein Name
+        <input type="text" id="sName" maxlength="30" autocomplete="off">
+      </label>
+
+      <label class="field">Vorlesestimme
+        <select id="sVoice"></select>
+      </label>
+      <p class="hint" id="voiceHint"></p>
+
+      <label class="field">Sprechtempo <output id="oRate"></output>
+        <input type="range" id="sRate" min="0.6" max="1.1" step="0.05">
+      </label>
+      <label class="field">Stimmlage <output id="oPitch"></output>
+        <input type="range" id="sPitch" min="0.6" max="1.3" step="0.05">
+      </label>
+      <label class="field">Länge der Pausen <output id="oPause"></output>
+        <input type="range" id="sPause" min="0.6" max="2" step="0.1">
+      </label>
+      <button type="button" class="btn" id="testVoice">Stimme testen</button>
+
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="sText"><span>Text mitlesen</span></label>
+        <label class="toggle"><input type="checkbox" id="sCues"><span>Atem-Ansagen sprechen</span></label>
+        <label class="toggle"><input type="checkbox" id="sChime"><span>Sanfter Ton beim Phasenwechsel</span></label>
+        <label class="toggle"><input type="checkbox" id="sWake"><span>Bildschirm während der Übung wach halten</span></label>
+      </div>
+
+      <button type="button" class="btn primary hidden" id="installBtn">App installieren</button>
+      <p class="hint" id="installHint"></p>
+      <p class="hint small">Alle Einstellungen bleiben nur auf diesem Gerät gespeichert.</p>
+    </form>
+  </dialog>
+
+  <!-- NACHTMODUS -->
+  <div id="night" class="hidden" role="button" aria-label="Zum Aufwecken tippen">
+    <div class="night-moon"></div>
+    <p>Tippen zum Zurückkehren</p>
+  </div>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
